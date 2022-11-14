@@ -3,6 +3,9 @@ package org.caterpillar.diffknife.model;
 public class DiffTreeResult extends DiffResult {
 
     public static DiffResult toDiffResult(DiffTreeResult diffTreeResult) {
+        if(diffTreeResult==null){
+            return null;
+        }
         return diffTreeResult.toDiffResult();
     }
 

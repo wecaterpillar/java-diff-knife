@@ -1,5 +1,6 @@
 package org.caterpillar.diffknife;
 
+import cn.hutool.json.JSONObject;
 import org.caterpillar.diffknife.model.DiffResult;
 import org.caterpillar.diffknife.model.DiffTreeResult;
 import org.caterpillar.diffknife.model.TreeObj;
@@ -36,7 +37,7 @@ public class TreeUtil {
         return null;
     }
 
-    public static TreeObj listToTree(List<Map> list, Properties config) {
+    public static TreeObj listToTree(List<Map> list, JSONObject config) {
 
         return null;
     }

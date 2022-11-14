@@ -27,6 +27,12 @@
             <artifactId>hutool-all</artifactId>
             <version>5.8.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.0.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
