@@ -14,7 +14,7 @@ public class DiffBuilder<E> implements Serializable {
         return this;
     }
 
-    public DiffBuilder<E> diff(E e1, E e2){
+    public DiffBuilder<E> diff(E working, E base){
         // TODO diff 逻辑处理
         return this;
     }

@@ -1,12 +1,9 @@
 package org.caterpillar.diffknife;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Properties;
 
 /**
  * 对比配置参数

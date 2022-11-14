@@ -3,6 +3,18 @@
     <groupId>org.caterpillar</groupId>
     <artifactId>diff-knife</artifactId>
     <version>0.5.0</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <packaging>pom</packaging>
     <name>Diff tool for Java Object/List/Tree</name>
     <properties>
@@ -23,6 +35,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>5.8.5</version>
@@ -33,6 +51,7 @@
             <version>6.0.1</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
 </project>
