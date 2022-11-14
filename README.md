@@ -33,8 +33,8 @@ Java数据对比小工具，对比Java对象和集合(List和Tree)的数据差�
   - [x] 支持生成变化描述
 - 工具使用
   - [x] Util工具类静态方法
-    - [ ] 树工具类 TreeUtil.diff(tree1, tree2)
-    - [ ] 通用工具类 DiffUtil.diff(obj1, obj2)
+    - [X] 树对比工具类 TreeUtil.diffNodeList(workingNodes, baseNodes)
+    - [ ] 通用对比工具类 DiffUtil.diff(workingObj, baseObj)
   - [ ] 多参数配置
 
 # reference

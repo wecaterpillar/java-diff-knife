@@ -11,11 +11,11 @@ import java.util.*;
 
 public class TreeUtil {
 
-    public static DiffResult diff(List<JSONObject> working, List<JSONObject> base) {
-        return diff(working, base, null);
+    public static DiffResult diffNodeList(List<JSONObject> working, List<JSONObject> base) {
+        return diffNodeList(working, base, null);
     }
 
-    public static DiffResult diff(List<JSONObject> working, List<JSONObject> base, DiffConfig config) {
+    public static DiffResult diffNodeList(List<JSONObject> working, List<JSONObject> base, DiffConfig config) {
         DiffResult diffResult = new DiffResult();
         // 1. prepare, config
         if (config == null) {
@@ -25,7 +25,7 @@ public class TreeUtil {
         String treeParentIdKey = config.getStr("tree.parentIdKey", "parentId");
         // 对比两颗树结构变化，先对比节点，数量找到新增和删除的部分，再对比相同节点父节点改变的部分。
 
-        // 2.  current vs base
+        // 2. 对比 current vs base
         List<JSONObject> newNodes = new ArrayList<>();
         List<JSONObject> delNodes = new ArrayList<>();
         List<DiffItem> moveItems = new ArrayList<>();
@@ -38,8 +38,9 @@ public class TreeUtil {
         for (JSONObject json : working) {
             String id = json.getStr(treeIdKey);
             if (mBaseNode.containsKey(id)) {
+                // 相同节点
                 setSameNode.add(id);
-                // 检查移动父节点 check parentId when same node
+                // 检查移动父节点，忽略排序
                 String baseParentId = mBaseNode.get(id).getStr(treeParentIdKey);
                 String currParentId = json.getStr(treeParentIdKey);
                 DiffItem diffItem = null;
@@ -59,6 +60,7 @@ public class TreeUtil {
                     }
                     moveItems.add(diffItem);
                 }
+                // TODO 检查数据变化
             } else {
                 // new
                 newNodes.add(json);

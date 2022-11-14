@@ -23,7 +23,6 @@ public class DiffItem  {
     public static int INDEX_CHANGE = 4;  //更改位置/排序，同层
     public static int TREE_NODE_MOVE = 5;  //树节点移动（非同级，同级移动按更改位置处理）
 
-
     public DiffItem(){
 
     }
@@ -47,12 +46,16 @@ public class DiffItem  {
     // 当前值
     private String currVal;
     private String currLabel;
+
     // 历史值
     private String baseVal;
     private String baseLabel;
+
     // 是否忽略
     private boolean isIgnore = false;
 
+    // 明细
+    // 对象 新增/删除的明细内容（树包含子节点）
 
     public long getId() {
         return id;

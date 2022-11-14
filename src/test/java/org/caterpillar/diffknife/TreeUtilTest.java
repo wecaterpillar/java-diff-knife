@@ -44,7 +44,7 @@ public class TreeUtilTest {
         base.add(item1);
         base.add(item21);
         base.add(item22);
-        DiffResult result = TreeUtil.diff(working, base);
+        DiffResult result = TreeUtil.diffNodeList(working, base);
         if (result != null) {
             Iterator<DiffItem> it = result.iterator();
             while (it.hasNext()) {
