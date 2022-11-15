@@ -12,7 +12,40 @@ import java.util.List;
 
 public class TreeUtilTest {
 
-    private static JSONObject createNode(String id, String parentId, String name, int index){
+
+
+    @Test
+    public void testDiffNodeList() {
+        List<JSONObject> baseList = new ArrayList<JSONObject>();
+        baseList.add(createTreeNode("1", "0"));
+        baseList.add(createTreeNode("21", "1"));
+        baseList.add(createTreeNode("22", "1"));
+        baseList.add(createTreeNode("31", "21"));
+        baseList.add(createTreeNode("32", "21"));
+        baseList.add(createTreeNode("33", "22"));
+        baseList.add(createTreeNode("34", "33"));
+
+        List<JSONObject> workingList = new ArrayList<JSONObject>();
+        workingList.add(createTreeNode("1", "0"));
+        workingList.add(createTreeNode("21", "1"));
+        workingList.add(createTreeNode("22", "1"));
+        workingList.add(createTreeNode("31", "22"));
+        workingList.add(createTreeNode("35", "22"));
+        workingList.add(createTreeNode("41", "35"));
+        workingList.add(createTreeNode("42", "35"));
+
+        DiffResult result = TreeUtil.diffNodeList(workingList, baseList);
+        if (result != null) {
+            Iterator<DiffItem> it = result.iterator();
+            while (it.hasNext()) {
+                DiffItem diffItem = it.next();
+                System.out.println(diffItem);
+            }
+        }
+        Assert.assertEquals(result.size(), 4);
+    }
+
+    private static JSONObject createTreeNode(String id, String parentId){
         JSONObject node = new JSONObject();
         //tree.idKey = "id";
         //tree.parentIdKey = "parentId";
@@ -21,38 +54,9 @@ public class TreeUtilTest {
         //tree.childrenKey = "children";
         node.set("id", id);
         node.set("parentId", parentId);
-        node.set("name", name);
-        node.set("weight", index);
+        node.set("name", "node"+id);
+        node.set("weight", 0);
         return node;
-    }
-
-    @Test
-    public void testDiff() {
-        List<JSONObject> working = new ArrayList<JSONObject>();
-        List<JSONObject> base = new ArrayList<JSONObject>();
-
-        JSONObject item1 = createNode("1","0","1", 0);
-        JSONObject item21 = createNode("21","1","21", 0);
-        JSONObject item22 = createNode("22","1","22", 0);
-        JSONObject item31 = createNode("31","21","31", 0);
-        JSONObject item32 = createNode("32","21","32", 0);
-        JSONObject item33 = createNode("33","22","33", 0);
-        JSONObject item34 = createNode("34","22","34", 0);
-        working.add(item1);
-        working.add(item21);
-        working.add(item31);
-        base.add(item1);
-        base.add(item21);
-        base.add(item22);
-        DiffResult result = TreeUtil.diffNodeList(working, base);
-        if (result != null) {
-            Iterator<DiffItem> it = result.iterator();
-            while (it.hasNext()) {
-                DiffItem diffItem = it.next();
-                System.out.println(diffItem);
-            }
-        }
-        Assert.assertEquals(result.size(), 2);
     }
 
 }

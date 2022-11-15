@@ -108,6 +108,7 @@ public class TreeUtil {
         String treeParentIdKey = config.getStr("tree.parentIdKey", "parentId");
         String treeWeightKey = config.getStr("tree.weightKey", "weight");
         String treeChildrenKey = config.getStr("tree.childrenKey", "children");
+        boolean ignoreWeight = config.getBool("tree.ignoreWeight", true);
 
         Map<String, JSONObject> mTemp = new LinkedHashMap<>();
         for (JSONObject node : list) {
@@ -120,7 +121,14 @@ public class TreeUtil {
                 if (mTemp.get(parentId).getJSONArray(treeChildrenKey) == null) {
                     mTemp.get(parentId).set(treeChildrenKey, new JSONArray());
                 }
-                mTemp.get(parentId).getJSONArray(treeChildrenKey).add(node);
+                if(ignoreWeight){
+                    // 忽略排序插入到尾部
+                    mTemp.get(parentId).getJSONArray(treeChildrenKey).add(node);
+                }else{
+                    // TODO 检查weight更换插入位置
+                    // mTemp.get(parentId).getJSONArray(treeChildrenKey).add(3, node);
+                    mTemp.get(parentId).getJSONArray(treeChildrenKey).add(node);
+                }
             } else {
                 listTreeNode.add(node);
             }
