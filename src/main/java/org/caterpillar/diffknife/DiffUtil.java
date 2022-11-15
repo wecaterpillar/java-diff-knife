@@ -5,8 +5,14 @@ import org.caterpillar.diffknife.model.DiffResult;
 
 
 public class DiffUtil {
+    public static DiffResult diff(Object working, Object base){
+        return diff(working, base, null);
+    }
     public static DiffResult diff(Object working, Object base, DiffConfig config){
         DiffResult diffResult = null;
+        if(config==null){
+            config = DiffConfig.DEFAULT_CONFIG;
+        }
         // 1. check null
         if(working==null || base==null){
             // TODO null as simple bean
