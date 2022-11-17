@@ -17,10 +17,11 @@ public class DiffUtil {
         if(working==null || base==null){
             // TODO null as simple bean
             // 新增或删除
-            diffResult = new DiffBuilder<Object>().config(config).diff(working, base).getDiffResult();
+            diffResult = new DiffBuilder<Object>(config).diff(working, base).getDiffResult();
             return  diffResult;
         }
         // 2. check tree object
+        // 如何判断是树对比？
 
         // 3. other
         // TODO 检查类型，处理特别类型
@@ -28,7 +29,7 @@ public class DiffUtil {
         // 3.2 check object data
 
         // 4. default
-        diffResult = new DiffBuilder<Object>().config(config).diff(working, base).getDiffResult();
+        diffResult = new DiffBuilder<Object>(config).diff(working, base).getDiffResult();
         return diffResult;
     }
 }

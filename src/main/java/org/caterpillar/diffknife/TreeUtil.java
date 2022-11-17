@@ -67,7 +67,8 @@ public class TreeUtil {
         // 参数准备
         List<JSONObject> list = new ArrayList<>();
         JSONObject top = new JSONObject();
-        BeanUtil.copyProperties(tree, top, "children");
+        String treeChildrenKey = DiffConfig.getTreeChildrenKey(config);
+        BeanUtil.copyProperties(tree, top, treeChildrenKey);
         list.add(top);
         // check children
         String id = top.getStr(DiffConfig.getTreeIdKey(config));
@@ -97,7 +98,7 @@ public class TreeUtil {
                 childJson = new JSONObject(child);
             }
             JSONObject childNode = new JSONObject();
-            BeanUtil.copyProperties(childJson, childNode, "children");
+            BeanUtil.copyProperties(childJson, childNode, treeChildrenKey);
             childNode.set(DiffConfig.getTreeParentIdKey(config), parentId);
             list.add(childNode);
 
