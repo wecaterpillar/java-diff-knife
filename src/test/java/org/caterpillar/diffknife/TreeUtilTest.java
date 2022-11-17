@@ -12,8 +12,6 @@ import java.util.List;
 
 public class TreeUtilTest {
 
-
-
     @Test
     public void testDiffNodeList() {
         List<JSONObject> baseList = new ArrayList<JSONObject>();
@@ -35,13 +33,14 @@ public class TreeUtilTest {
         workingList.add(createTreeNode("42", "35"));
 
         DiffResult result = TreeUtil.diffNodeList(workingList, baseList);
-        if (result != null) {
-            Iterator<DiffItem> it = result.iterator();
-            while (it.hasNext()) {
-                DiffItem diffItem = it.next();
-                System.out.println(diffItem);
-            }
-        }
+        System.out.println(result);
+//        if (result != null) {
+//            Iterator<DiffItem> it = result.iterator();
+//            while (it.hasNext()) {
+//                DiffItem diffItem = it.next();
+//                System.out.println(diffItem);
+//            }
+//        }
         Assert.assertEquals(result.size(), 4);
     }
 

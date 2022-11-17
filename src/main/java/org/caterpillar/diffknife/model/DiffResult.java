@@ -1,6 +1,7 @@
 package org.caterpillar.diffknife.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * 对比差异结果
@@ -17,5 +18,18 @@ public class DiffResult extends ArrayList<DiffItem> {
         if(diffItem!=null){
             this.add(diffItem);
         }
+    }
+
+    @Override
+    public String toString(){
+        StringBuffer sb = new StringBuffer();
+        Iterator<DiffItem> it = this.iterator();
+        while(it.hasNext()){
+            DiffItem item = it.next();
+            if(!item.isIgnore()){
+                sb.append(item.toString()).append("/r/n");
+            }
+        }
+        return  sb.toString();
     }
 }
