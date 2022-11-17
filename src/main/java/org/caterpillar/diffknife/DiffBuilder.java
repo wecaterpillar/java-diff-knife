@@ -6,11 +6,24 @@ import java.io.Serializable;
 
 public class DiffBuilder<E> implements Serializable {
 
-    private DiffConfig config;
-    private DiffResult diffResult;
+    protected DiffConfig config;
+    protected DiffResult diffResult;
+
+    public DiffBuilder(){
+        this.config = DiffConfig.DEFAULT_CONFIG;
+    }
+
+    public DiffBuilder(DiffConfig config){
+        this.config = config;
+        if(this.config==null){
+            this.config = DiffConfig.DEFAULT_CONFIG;
+        }
+    }
 
     public DiffBuilder<E> config(DiffConfig config){
-        this.config = config;
+        if(config!=null){
+            this.config = config;
+        }
         return this;
     }
 
