@@ -1,11 +1,11 @@
-package org.caterpillar.diffknife;
+package org.caterpillar.utilknife;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
-import org.caterpillar.diffknife.model.DiffItem;
-import org.caterpillar.diffknife.model.DiffResult;
+import org.caterpillar.utilknife.model.DiffItem;
+import org.caterpillar.utilknife.model.DiffResult;
 
 import java.util.*;
 
@@ -15,13 +15,13 @@ public class DiffTreeBuilder extends DiffBuilder<JSONObject> {
         super();
     }
 
-    public DiffTreeBuilder(DiffConfig config){
+    public DiffTreeBuilder(Config config){
         super(config);
     }
 
     public DiffTreeBuilder diff(JSONObject working, JSONObject base){
         if(config==null){
-            config = DiffConfig.DEFAULT_CONFIG;
+            config = Config.DEFAULT_CONFIG;
         }
         List<JSONObject> workingNodeList = TreeUtil.treeToList(working, config);
         List<JSONObject> baseNodeList = TreeUtil.treeToList(base, config);
@@ -32,11 +32,11 @@ public class DiffTreeBuilder extends DiffBuilder<JSONObject> {
     public DiffTreeBuilder diffNodeList(List<JSONObject> workingNodeList, List<JSONObject> baseNodeList) {
         DiffResult diffResult = new DiffResult();
         if(config==null){
-            config = DiffConfig.DEFAULT_CONFIG;
+            config = Config.DEFAULT_CONFIG;
         }
-        String treeIdKey = DiffConfig.getTreeIdKey(config);
-        String treeParentIdKey = DiffConfig.getTreeParentIdKey(config);
-        String treeNameKey = DiffConfig.getTreeNameKey(config);
+        String treeIdKey = Config.getIdKey(config);
+        String treeParentIdKey = Config.getParentIdKey(config);
+        String treeNameKey = Config.getNameKey(config);
         // 对比两颗树结构变化，先对比节点，数量找到新增和删除的部分，再对比相同节点父节点改变的部分。
 
         Map<String, JSONObject> mBaseNode = new HashMap<>();
@@ -69,7 +69,7 @@ public class DiffTreeBuilder extends DiffBuilder<JSONObject> {
                     diffItem = new DiffItem(DiffItem.TREE_NODE_MOVE);
                     diffItem.setObjType("treeNode");
                     diffItem.setObjKey(id);
-                    String name = json.getStr(DiffConfig.getTreeParentIdKey(config), id);
+                    String name = json.getStr(Config.getParentIdKey(config), id);
                     diffItem.setObjLabel(name);
 
                     String basePath = getTreePath(mBaseNode.get(id), mBaseNode);
@@ -138,13 +138,13 @@ public class DiffTreeBuilder extends DiffBuilder<JSONObject> {
             return path;
         }
         // 假定包含节点自身
-        String id = currNode.getStr(DiffConfig.getTreeIdKey(config), "");
-        String name = currNode.getStr(DiffConfig.getTreeNameKey(config), id);
+        String id = currNode.getStr(Config.getIdKey(config), "");
+        String name = currNode.getStr(Config.getNameKey(config), id);
         if(ObjectUtil.isEmpty(name) && ObjectUtil.isEmpty(id)){
             return path;
         }
         path = DiffItem.getItemLabel(id, name);
-        String parentId = currNode.getStr(DiffConfig.getTreeParentIdKey(config), "");
+        String parentId = currNode.getStr(Config.getParentIdKey(config), "");
         if(!ObjectUtil.isEmpty(parentId) && mNodes.containsKey(parentId)){
             JSONObject parentNode = mNodes.get(parentId);
             String parentPath = getTreePath(parentNode, mNodes);
@@ -160,7 +160,7 @@ public class DiffTreeBuilder extends DiffBuilder<JSONObject> {
             return;
         }
         // check children
-        String childrenKey = DiffConfig.getTreeChildrenKey(config);
+        String childrenKey = Config.getChildrenKey(config);
         if(!parentNode.containsKey(childrenKey)){
             return;
         }
@@ -178,11 +178,11 @@ public class DiffTreeBuilder extends DiffBuilder<JSONObject> {
             }else{
                 childJson = new JSONObject(child);
             }
-            String id = childJson.getStr(DiffConfig.getTreeIdKey(config));
+            String id = childJson.getStr(Config.getIdKey(config));
             if(ObjectUtil.isEmpty(id)){
                 continue;
             }
-            String name = childJson.getStr(DiffConfig.getTreeParentIdKey(config), id);
+            String name = childJson.getStr(Config.getParentIdKey(config), id);
             if(isDel){
                 diffItem = new DiffItem(DiffItem.ITEM_DEL);
             }else {

@@ -1,8 +1,8 @@
-package org.caterpillar.diffknife;
+package org.caterpillar.utilknife;
 
 import cn.hutool.json.JSONObject;
-import org.caterpillar.diffknife.model.DiffItem;
-import org.caterpillar.diffknife.model.DiffResult;
+import org.caterpillar.utilknife.model.DiffItem;
+import org.caterpillar.utilknife.model.DiffResult;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

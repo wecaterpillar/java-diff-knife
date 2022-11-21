@@ -1,4 +1,4 @@
-package org.caterpillar.diffknife.model;
+package org.caterpillar.utilknife.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;

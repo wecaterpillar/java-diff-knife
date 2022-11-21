@@ -1,17 +1,21 @@
-package org.caterpillar.diffknife;
+package org.caterpillar.utilknife;
 
 
-import org.caterpillar.diffknife.model.DiffResult;
+import org.caterpillar.utilknife.model.DiffResult;
 
 
+/**
+ * Diff Util
+ * - diff
+ */
 public class DiffUtil {
     public static DiffResult diff(Object working, Object base){
         return diff(working, base, null);
     }
-    public static DiffResult diff(Object working, Object base, DiffConfig config){
+    public static DiffResult diff(Object working, Object base, Config config){
         DiffResult diffResult = null;
         if(config==null){
-            config = DiffConfig.DEFAULT_CONFIG;
+            config = Config.DEFAULT_CONFIG;
         }
         // 1. check null
         if(working==null || base==null){

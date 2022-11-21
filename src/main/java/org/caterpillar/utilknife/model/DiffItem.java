@@ -1,4 +1,4 @@
-package org.caterpillar.diffknife.model;
+package org.caterpillar.utilknife.model;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;

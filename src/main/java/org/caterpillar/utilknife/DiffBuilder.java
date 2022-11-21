@@ -1,26 +1,26 @@
-package org.caterpillar.diffknife;
+package org.caterpillar.utilknife;
 
-import org.caterpillar.diffknife.model.DiffResult;
+import org.caterpillar.utilknife.model.DiffResult;
 
 import java.io.Serializable;
 
 public class DiffBuilder<E> implements Serializable {
 
-    protected DiffConfig config;
+    protected Config config;
     protected DiffResult diffResult;
 
     public DiffBuilder(){
-        this.config = DiffConfig.DEFAULT_CONFIG;
+        this.config = Config.DEFAULT_CONFIG;
     }
 
-    public DiffBuilder(DiffConfig config){
+    public DiffBuilder(Config config){
         this.config = config;
         if(this.config==null){
-            this.config = DiffConfig.DEFAULT_CONFIG;
+            this.config = Config.DEFAULT_CONFIG;
         }
     }
 
-    public DiffBuilder<E> config(DiffConfig config){
+    public DiffBuilder<E> config(Config config){
         if(config!=null){
             this.config = config;
         }

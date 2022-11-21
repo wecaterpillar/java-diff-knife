@@ -1,28 +1,33 @@
-package org.caterpillar.diffknife;
+package org.caterpillar.utilknife;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
-import org.caterpillar.diffknife.model.DiffResult;
+import org.caterpillar.utilknife.model.DiffResult;
 
 import java.util.*;
 
+/**
+ * Tree Util
+ * - diff
+ * - convert (tree <=> list)
+ */
 public class TreeUtil {
 
     public static DiffResult diffNodeList(List<JSONObject> workingNodeList, List<JSONObject> baseNodeList) {
         return diffNodeList(workingNodeList, baseNodeList, null);
     }
 
-    public static DiffResult diffNodeList(List<JSONObject> workingNodeList, List<JSONObject> baseNodeList, DiffConfig config) {
+    public static DiffResult diffNodeList(List<JSONObject> workingNodeList, List<JSONObject> baseNodeList, Config config) {
         return new DiffTreeBuilder(config).diffNodeList(workingNodeList, baseNodeList).getDiffResult();
     }
     public static DiffResult diffTree(JSONObject working, JSONObject base){
         return diffTree(working, base, null);
     }
 
-    public static DiffResult diffTree(JSONObject working, JSONObject base, DiffConfig config){
+    public static DiffResult diffTree(JSONObject working, JSONObject base, Config config){
         return new DiffTreeBuilder(config).diff(working, base).getDiffResult();
     }
 
@@ -31,10 +36,10 @@ public class TreeUtil {
         if (CollectionUtil.isEmpty(list)) {return Collections.emptyList();}
 
         List<JSONObject> listTreeNode = new ArrayList<>();
-        String treeIdKey = DiffConfig.getTreeIdKey(config);
-        String treeParentIdKey = DiffConfig.getTreeParentIdKey(config);
-        String treeWeightKey = DiffConfig.getTreeWeightKey(config);  //ignoreWeight=true返回空字符串
-        String treeChildrenKey = DiffConfig.getTreeChildrenKey(config);
+        String treeIdKey = Config.getIdKey(config);
+        String treeParentIdKey = Config.getParentIdKey(config);
+        String treeWeightKey = Config.getWeightKey(config);  //ignoreWeight=true返回空字符串
+        String treeChildrenKey = Config.getChildrenKey(config);
 
         Map<String, JSONObject> mTemp = new LinkedHashMap<>();
         for (JSONObject node : list) {
@@ -67,11 +72,11 @@ public class TreeUtil {
         // 参数准备
         List<JSONObject> list = new ArrayList<>();
         JSONObject top = new JSONObject();
-        String treeChildrenKey = DiffConfig.getTreeChildrenKey(config);
+        String treeChildrenKey = Config.getChildrenKey(config);
         BeanUtil.copyProperties(tree, top, treeChildrenKey);
         list.add(top);
         // check children
-        String id = top.getStr(DiffConfig.getTreeIdKey(config));
+        String id = top.getStr(Config.getIdKey(config));
         checkTreeChildrenToList(list, id, tree, config);
         return  list;
     }
@@ -79,7 +84,7 @@ public class TreeUtil {
         if(list==null || parentNode==null) {
             return;
         }
-        String treeChildrenKey = DiffConfig.getTreeChildrenKey(config);
+        String treeChildrenKey = Config.getChildrenKey(config);
         // 无叶子节点
         if(!parentNode.containsKey(treeChildrenKey)){
             list.add(parentNode);
@@ -99,11 +104,11 @@ public class TreeUtil {
             }
             JSONObject childNode = new JSONObject();
             BeanUtil.copyProperties(childJson, childNode, treeChildrenKey);
-            childNode.set(DiffConfig.getTreeParentIdKey(config), parentId);
+            childNode.set(Config.getParentIdKey(config), parentId);
             list.add(childNode);
 
             // check child's children
-            String id = childJson.getStr(DiffConfig.getTreeIdKey(config));
+            String id = childJson.getStr(Config.getIdKey(config));
             checkTreeChildrenToList(list, id, childJson, config);
         }
 
