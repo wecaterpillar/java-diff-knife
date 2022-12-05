@@ -58,6 +58,9 @@ https://github.com/SQiShER/java-object-diff
 Java object diff      
 https://github.com/colincatsu/fast-object-diff 
 
+- 
+https://gitee.com/local-li/json-diff
+
 
 - JaVers  
 object auditing and diff framework for Java  
