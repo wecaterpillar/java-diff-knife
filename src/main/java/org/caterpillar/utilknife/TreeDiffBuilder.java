@@ -9,17 +9,18 @@ import org.caterpillar.utilknife.model.DiffResult;
 
 import java.util.*;
 
-public class DiffTreeBuilder extends DiffBuilder<JSONObject> {
+@lombok.extern.slf4j.Slf4j
+public class TreeDiffBuilder extends JsonDiffBuilder {
 
-    public DiffTreeBuilder(){
+    public TreeDiffBuilder(){
         super();
     }
 
-    public DiffTreeBuilder(Config config){
+    public TreeDiffBuilder(Config config){
         super(config);
     }
 
-    public DiffTreeBuilder diff(JSONObject working, JSONObject base){
+    public TreeDiffBuilder diffTree(JSONObject working, JSONObject base){
         if(config==null){
             config = Config.DEFAULT_CONFIG;
         }
@@ -29,7 +30,7 @@ public class DiffTreeBuilder extends DiffBuilder<JSONObject> {
         return this;
     }
 
-    public DiffTreeBuilder diffNodeList(List<JSONObject> workingNodeList, List<JSONObject> baseNodeList) {
+    public TreeDiffBuilder diffNodeList(List<JSONObject> workingNodeList, List<JSONObject> baseNodeList) {
         DiffResult diffResult = new DiffResult();
         if(config==null){
             config = Config.DEFAULT_CONFIG;
@@ -53,6 +54,7 @@ public class DiffTreeBuilder extends DiffBuilder<JSONObject> {
         List<JSONObject> newNodes = new ArrayList<>();
         List<JSONObject> delNodes = new ArrayList<>();
         List<DiffItem> moveItems = new ArrayList<>();
+        List<DiffItem> changeItems = new ArrayList<>();
 
         Set<String> setSameNode = new HashSet<>();
         for (JSONObject json : workingNodeList) {
@@ -79,7 +81,31 @@ public class DiffTreeBuilder extends DiffBuilder<JSONObject> {
                     diffItem.setBaseLabel(basePath);
                     moveItems.add(diffItem);
                 }
-                // TODO 检查节点数据变化
+                // TODO 检查节点数据变化, 待验证
+                try{
+                    DiffResult nodeDiffResult = new JsonDiffBuilder().config(this.config).diff(json, mBaseNode.get(id)).getDiffResult();
+                    if(nodeDiffResult!=null && nodeDiffResult.size()>0){
+                        if(diffItem!=null){
+                            // 如果同时存在移动父节点和更改，则自动合并
+                            diffItem.setChildren(nodeDiffResult);
+                        }else{
+                            diffItem = new DiffItem(DiffItem.VALUE_CHANGE);
+                            diffItem.setObjType("treeNode");
+                            diffItem.setObjKey(id);
+                            String name = json.getStr(Config.getParentIdKey(config), id);
+                            diffItem.setObjLabel(name);
+                            String currPath = getTreePath(json, mWorkingNode);
+                            diffItem.setPath(currPath);
+
+                            // detail
+                            diffItem.setChildren(nodeDiffResult);
+
+                            changeItems.add(diffItem);
+                        }
+                    }
+                }catch (Throwable e){
+                    //log.warn(e.getMessage(), e);
+                }
             } else {
                 // new
                 newNodes.add(json);
@@ -127,6 +153,9 @@ public class DiffTreeBuilder extends DiffBuilder<JSONObject> {
                 diffResult.addDiff(diffItem);
             }
         }
+        // 3.4 change value
+        diffResult.addAll(changeItems);
+
         // set diff result
         this.diffResult = diffResult;
         return this;

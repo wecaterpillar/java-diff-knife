@@ -23,6 +23,9 @@ public class Config extends JSONObject implements Serializable {
         // 对比结果展示深度，默认第二层（树默认为叶子节点）
         config.set("showDeep", 0);
 
+        //treeMaxDeep
+        //jsonMaxDeep
+
         // 1.2 树对比参数配置
         // 可以配置递归深度 从0开始计算 默认此配置为空,即不限制
         //config.set("tree.deep", null);

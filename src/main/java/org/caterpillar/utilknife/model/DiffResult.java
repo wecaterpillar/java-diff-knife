@@ -14,6 +14,9 @@ import java.util.Iterator;
  *
  */
 public class DiffResult extends ArrayList<DiffItem> {
+    public boolean isMatch(){
+        return this.size()==0;
+    }
     public void addDiff(DiffItem diffItem){
         if(diffItem!=null){
             this.add(diffItem);

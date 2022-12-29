@@ -21,14 +21,14 @@ public class TreeUtil {
     }
 
     public static DiffResult diffNodeList(List<JSONObject> workingNodeList, List<JSONObject> baseNodeList, Config config) {
-        return new DiffTreeBuilder(config).diffNodeList(workingNodeList, baseNodeList).getDiffResult();
+        return new TreeDiffBuilder(config).diffNodeList(workingNodeList, baseNodeList).getDiffResult();
     }
     public static DiffResult diffTree(JSONObject working, JSONObject base){
         return diffTree(working, base, null);
     }
 
     public static DiffResult diffTree(JSONObject working, JSONObject base, Config config){
-        return new DiffTreeBuilder(config).diff(working, base).getDiffResult();
+        return new TreeDiffBuilder(config).diff(working, base).getDiffResult();
     }
 
     public static List<JSONObject> listToTree(List<JSONObject> list, JSONObject config) {

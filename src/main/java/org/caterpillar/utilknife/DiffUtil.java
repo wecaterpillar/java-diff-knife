@@ -1,7 +1,12 @@
 package org.caterpillar.utilknife;
 
 
+import cn.hutool.json.JSONConfig;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import org.caterpillar.utilknife.model.DiffResult;
+
+import java.util.List;
 
 
 /**
@@ -19,21 +24,17 @@ public class DiffUtil {
         }
         // 1. check null
         if(working==null || base==null){
-            // TODO null as simple bean
-            // 新增或删除
-            diffResult = new DiffBuilder<Object>(config).diff(working, base).getDiffResult();
-            return  diffResult;
+            //
         }
         // 2. check tree object
-        // 如何判断是树对比？
+        // 顶层tree采用TreeUtil，不考虑非顶层的tree
 
-        // 3. other
-        // TODO 检查类型，处理特别类型
-        // 3.1 check object class
-        // 3.2 check object data
-
-        // 4. default
-        diffResult = new DiffBuilder<Object>(config).diff(working, base).getDiffResult();
+        // 3. 统一转为json处理
+        // 假定JSONConfig为默认，待通过config生成新的JSONConfig
+        JSONConfig jsonConfig= JSONConfig.create();
+        JSONObject workingJson = JSONUtil.parseObj(JSONUtil.toJsonStr(working));
+        JSONObject baseJson = JSONUtil.parseObj(JSONUtil.toJsonStr(base));
+        diffResult = new JsonDiffBuilder().config(config).diff(workingJson, baseJson).getDiffResult();
         return diffResult;
     }
 }
