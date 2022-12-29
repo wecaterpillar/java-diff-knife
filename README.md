@@ -7,13 +7,12 @@ Java数据对比小工具，对比Java对象和集合(List和Tree)的数据差�
   - [ ] 日期/时间
   - [ ] 集合类型(List/Map/Set)
   - [x] 树 Tree
-  - [ ] 复杂对象Bean
-  - [ ] Json
+  - [x] Json
 
 - 对比识别的操作类型
   - [x] 新增
   - [x] 删除
-  - [ ] 数据变化
+  - [x] 数据变化
   - [ ] 更改位置（同层变化）
   - [x] 移动节点（针对树非同层移动节点）
   
@@ -33,7 +32,7 @@ Java数据对比小工具，对比Java对象和集合(List和Tree)的数据差�
   - [x] 支持生成变化描述
 - 工具使用
   - [x] Util工具类静态方法
-    - [ ] 通用对比工具类 DiffResult DiffUtil.diff(workingObj, baseObj)
+    - [x] 通用对比工具类 DiffResult DiffUtil.diff(workingObj, baseObj)
     - [X] 树对比工具类 
       - DiffResult TreeUtil.diffNodeList(List<JSONObject> workingNodes, List<JSONObject> baseNodes)
       - DiffResult TreeUtil.diffTree(JSONObject working, JSONObject base)
